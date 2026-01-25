@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next"
-import { useState } from "react"
+import { MouseEvent, useState } from "react"
 import copy from "copy-to-clipboard"
 
 import { clx, toast, Tooltip } from "@medusajs/ui"
@@ -13,16 +13,25 @@ function DisplayId({ id, className }: DisplayIdProps) {
   const { t } = useTranslation()
   const [open, setOpen] = useState(false)
 
-  const onClick = () => {
+  const onClick = (e: MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation()
     copy(id)
     toast.success(t("actions.idCopiedToClipboard"))
   }
 
   return (
     <Tooltip maxWidth={260} content={id} open={open} onOpenChange={setOpen}>
-      <span onClick={onClick} className={clx("cursor-pointer", className)}>
+      <button
+        type="button"
+        onClick={onClick}
+        aria-label={t("actions.copyId")}
+        className={clx(
+          "transition-fg hover:text-ui-fg-subtle focus-visible:text-ui-fg-interactive outline-none",
+          className
+        )}
+      >
         #{id.slice(-7)}
-      </span>
+      </button>
     </Tooltip>
   )
 }
