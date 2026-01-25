@@ -1,10 +1,12 @@
 import { getOrderDetailWorkflow } from "@medusajs/core-flows"
-import { MedusaRequest, MedusaResponse } from "@medusajs/framework/http"
+import {
+  AuthenticatedMedusaRequest,
+  MedusaResponse,
+} from "@medusajs/framework/http"
 import { HttpTypes } from "@medusajs/framework/types"
 
-// TODO: Do we want to apply some sort of authentication here? My suggestion is that we do
 export const GET = async (
-  req: MedusaRequest<HttpTypes.SelectParams>,
+  req: AuthenticatedMedusaRequest<HttpTypes.SelectParams>,
   res: MedusaResponse<HttpTypes.StoreOrderResponse>
 ) => {
   const workflow = getOrderDetailWorkflow(req.scope)
@@ -14,6 +16,7 @@ export const GET = async (
       order_id: req.params.id,
       filters: {
         is_draft_order: false,
+        customer_id: req.auth_context.actor_id,
       },
     },
   })
