@@ -42,6 +42,7 @@ export const JsonViewSection = ({ data }: JsonViewSectionProps) => {
             size="small"
             variant="transparent"
             className="text-ui-fg-muted hover:text-ui-fg-subtle"
+            aria-label={t("json.drawer.description")}
           >
             <ArrowUpRightOnBox />
           </IconButton>
@@ -76,6 +77,7 @@ export const JsonViewSection = ({ data }: JsonViewSectionProps) => {
                   size="small"
                   variant="transparent"
                   className="text-ui-contrast-fg-secondary hover:text-ui-contrast-fg-primary hover:bg-ui-contrast-bg-base-hover active:bg-ui-contrast-bg-base-pressed focus-visible:bg-ui-contrast-bg-base-hover focus-visible:shadow-borders-interactive-with-active"
+                  aria-label={t("general.close")}
                 >
                   <XMarkMini />
                 </IconButton>
@@ -165,9 +167,10 @@ type CopiedProps = {
 }
 
 const Copied = ({ style, value }: CopiedProps) => {
+  const { t } = useTranslation()
   const [copied, setCopied] = useState(false)
 
-  const handler = (e: MouseEvent<HTMLSpanElement>) => {
+  const handler = (e: MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation()
     setCopied(true)
 
@@ -185,17 +188,19 @@ const Copied = ({ style, value }: CopiedProps) => {
 
   const styl = { whiteSpace: "nowrap", width: "20px" }
 
-  if (copied) {
-    return (
-      <span style={{ ...style, ...styl }}>
-        <Check className="text-ui-contrast-fg-primary" />
-      </span>
-    )
-  }
-
   return (
-    <span style={{ ...style, ...styl }} onClick={handler}>
-      <SquareTwoStack className="text-ui-contrast-fg-secondary" />
-    </span>
+    <button
+      type="button"
+      style={{ ...style, ...styl }}
+      onClick={handler}
+      aria-label={copied ? t("actions.copied") : t("actions.copy")}
+      className="focus-visible:ring-ui-fg-interactive transition-fg appearance-none rounded-sm border-none bg-transparent p-0 outline-none focus-visible:ring-2"
+    >
+      {copied ? (
+        <Check className="text-ui-contrast-fg-primary" />
+      ) : (
+        <SquareTwoStack className="text-ui-contrast-fg-secondary" />
+      )}
+    </button>
   )
 }

@@ -1,0 +1,3 @@
+## 2025-05-14 - [Aria labels and Semantic interactive elements]
+**Learning:** Found a recurring pattern in the Medusa Admin Dashboard where icon-only buttons (`IconButton`) often lack `aria-label` attributes, and interactive elements (like the copy functionality in the JSON view) are implemented using non-semantic `<span>` tags with `onClick` handlers. These practices hinder keyboard navigation and screen reader accessibility.
+**Action:** Always prefer semantic `<button>` elements for interactive actions and ensure all icon-only buttons have descriptive `aria-label` attributes using available translation keys. Apply standard focus-visible styles to maintain visual consistency.
