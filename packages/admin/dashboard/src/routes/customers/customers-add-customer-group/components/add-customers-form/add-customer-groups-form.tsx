@@ -103,7 +103,8 @@ export const AddCustomerGroupsForm = ({
     count,
     enablePagination: true,
     enableRowSelection: (row) => {
-      return !row.original.customers?.map((c) => c.id).includes(customerId)
+      // Use .some() to avoid O(N) array allocation and redundant iterations.
+      return !row.original.customers?.some((c) => c.id === customerId)
     },
     getRowId: (row) => row.id,
     pageSize: PAGE_SIZE,
